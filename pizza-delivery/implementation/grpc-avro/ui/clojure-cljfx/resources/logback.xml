@@ -1,0 +1,15 @@
+<!-- Logback configuration. See http://logback.qos.ch/manual/index.html -->
+<configuration scan="false">
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>{"date": "%d{HH:mm:ss.SSS}", "level": "%level", "message": "%msg", "component": "%logger{36}, "subcomponent": "[%thread]"}%n</pattern>
+    </encoder>
+  </appender>
+
+  <root level="${LOG_LEVEL:-INFO}">
+    <appender-ref ref="STDOUT" />
+  </root>
+
+  <logger name="org.apache.zookeeper" level="INFO"/>
+  <logger name="org.apache.kafka" level="INFO"/>
+</configuration>

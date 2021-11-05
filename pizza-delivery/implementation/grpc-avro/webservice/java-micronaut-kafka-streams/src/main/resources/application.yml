@@ -1,0 +1,7 @@
+---
+micronaut:
+  application:
+    name: grpc
+grpc:
+  server:
+    port: 5050

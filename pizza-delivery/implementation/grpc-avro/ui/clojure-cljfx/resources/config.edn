@@ -1,0 +1,4 @@
+{:env/env          #dyn/keyword #dyn/prop ["ENVIRONMENT" "dev"]
+ :env/development? #ig/ref :env/env
+ :cljfx/context    {}
+ :cljfx/app        {:context #ig/ref :cljfx/context}}

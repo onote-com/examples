@@ -1,0 +1,275 @@
+{
+  "protocol": "PizzaDeliveryTracker",
+  "namespace": "com.example.pizza",
+  "messages": {
+    "ordersToFulfill": {
+      "request": [
+        {
+          "name": "request",
+          "type": "com.example.pizza.OrdersToFulfillRequest"
+        }
+      ],
+      "response": "com.example.pizza.OrdersToFulfillResponse"
+    },
+    "changeOrderStatus": {
+      "request": [
+        {
+          "name": "request",
+          "type": "com.example.pizza.MarkOrderRequest"
+        }
+      ],
+      "response": "boolean"
+    }
+  },
+  "types": [
+    {
+      "type": "record",
+      "name": "OrdersToFulfillRequest",
+      "fields": [],
+      "namespace": "com.example.pizza"
+    },
+    {
+      "type": "record",
+      "name": "OrdersToFulfillResponseOrdersRecordLineItemsRecord",
+      "fields": [
+        {
+          "type": {
+            "type": "string",
+            "logicalType": "uuid"
+          },
+          "name": "itemId"
+        },
+        {
+          "type": "long",
+          "name": "quantity"
+        },
+        {
+          "type": "long",
+          "name": "price"
+        },
+        {
+          "type": "string",
+          "name": "notes"
+        }
+      ],
+      "namespace": "com.example.pizza"
+    },
+    {
+      "type": "record",
+      "name": "OrdersToFulfillResponseOrdersRecordDeliveryAddressRecord",
+      "fields": [
+        {
+          "type": "string",
+          "name": "address1"
+        },
+        {
+          "type": "string",
+          "name": "address2"
+        },
+        {
+          "type": "string",
+          "name": "city"
+        },
+        {
+          "type": "string",
+          "name": "state"
+        },
+        {
+          "type": "string",
+          "name": "zip"
+        }
+      ],
+      "namespace": "com.example.pizza"
+    },
+    {
+      "type": "enum",
+      "name": "OrdersToFulfillResponseOrdersRecordTypeEnum",
+      "symbols": [
+        "DELIVERY",
+        "CARRY_OUT"
+      ],
+      "namespace": "com.example.pizza"
+    },
+    {
+      "type": "enum",
+      "name": "OrderType",
+      "symbols": [
+        "DELIVERY",
+        "CARRY_OUT"
+      ],
+      "namespace": "com.example.pizza"
+    },
+    {
+      "type": "enum",
+      "name": "OrdersToFulfillResponseOrdersRecordStatusEnum",
+      "symbols": [
+        "PREPARING",
+        "IN_OVEN",
+        "EN_ROUTE",
+        "DELIVERED"
+      ],
+      "namespace": "com.example.pizza"
+    },
+    {
+      "type": "enum",
+      "name": "OrderStatus",
+      "symbols": [
+        "PREPARING",
+        "IN_OVEN",
+        "EN_ROUTE",
+        "DELIVERED"
+      ],
+      "namespace": "com.example.pizza"
+    },
+    {
+      "type": "record",
+      "name": "OrdersToFulfillResponseOrdersRecord",
+      "fields": [
+        {
+          "type": {
+            "type": "string",
+            "logicalType": "uuid"
+          },
+          "name": "id"
+        },
+        {
+          "type": {
+            "type": "array",
+            "items": "com.example.pizza.OrdersToFulfillResponseOrdersRecordLineItemsRecord",
+            "default": []
+          },
+          "name": "lineItems"
+        },
+        {
+          "type": "long",
+          "name": "subtotal"
+        },
+        {
+          "type": "long",
+          "name": "tax"
+        },
+        {
+          "type": "long",
+          "name": "total"
+        },
+        {
+          "type": {
+            "type": "string",
+            "logicalType": "uuid"
+          },
+          "name": "customerId"
+        },
+        {
+          "type": "com.example.pizza.OrdersToFulfillResponseOrdersRecordDeliveryAddressRecord",
+          "name": "deliveryAddress"
+        },
+        {
+          "type": "com.example.pizza.OrderType",
+          "name": "type"
+        },
+        {
+          "type": "com.example.pizza.OrderStatus",
+          "name": "status"
+        }
+      ],
+      "namespace": "com.example.pizza"
+    },
+    {
+      "type": "record",
+      "name": "Order",
+      "fields": [
+        {
+          "type": {
+            "type": "string",
+            "logicalType": "uuid"
+          },
+          "name": "id"
+        },
+        {
+          "type": {
+            "type": "array",
+            "items": "com.example.pizza.OrdersToFulfillResponseOrdersRecordLineItemsRecord",
+            "default": []
+          },
+          "name": "lineItems"
+        },
+        {
+          "type": "long",
+          "name": "subtotal"
+        },
+        {
+          "type": "long",
+          "name": "tax"
+        },
+        {
+          "type": "long",
+          "name": "total"
+        },
+        {
+          "type": {
+            "type": "string",
+            "logicalType": "uuid"
+          },
+          "name": "customerId"
+        },
+        {
+          "type": "com.example.pizza.OrdersToFulfillResponseOrdersRecordDeliveryAddressRecord",
+          "name": "deliveryAddress"
+        },
+        {
+          "type": "com.example.pizza.OrderType",
+          "name": "type"
+        },
+        {
+          "type": "com.example.pizza.OrderStatus",
+          "name": "status"
+        }
+      ],
+      "namespace": "com.example.pizza"
+    },
+    {
+      "type": "record",
+      "name": "OrdersToFulfillResponse",
+      "fields": [
+        {
+          "type": {
+            "type": "array",
+            "items": "com.example.pizza.Order",
+            "default": []
+          },
+          "name": "orders"
+        }
+      ],
+      "namespace": "com.example.pizza"
+    },
+    {
+      "type": "enum",
+      "name": "MarkOrderRequestStatusEnum",
+      "symbols": [
+        "PREPARING",
+        "IN_OVEN",
+        "EN_ROUTE",
+        "DELIVERED"
+      ],
+      "namespace": "com.example.pizza"
+    },
+    {
+      "type": "record",
+      "name": "MarkOrderRequest",
+      "fields": [
+        {
+          "type": {
+            "type": "string",
+            "logicalType": "uuid"
+          },
+          "name": "orderId"
+        },
+        {
+          "type": "com.example.pizza.OrderStatus",
+          "name": "status"
+        }
+      ],
+      "namespace": "com.example.pizza"
+    }
+  ]
+}

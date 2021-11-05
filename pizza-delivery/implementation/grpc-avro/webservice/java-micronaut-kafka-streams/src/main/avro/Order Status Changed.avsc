@@ -1,0 +1,28 @@
+{
+  "type": "record",
+  "name": "OrderStatusChanged",
+  "fields": [
+    {
+      "type": {
+        "type": "string",
+        "logicalType": "uuid"
+      },
+      "name": "orderId"
+    },
+    {
+      "type": {
+        "type": "enum",
+        "name": "OrderStatusChangedStatusEnum",
+        "symbols": [
+          "PREPARING",
+          "IN_OVEN",
+          "EN_ROUTE",
+          "DELIVERED"
+        ],
+        "namespace": "com.example.pizza"
+      },
+      "name": "status"
+    }
+  ],
+  "namespace": "com.example.pizza"
+}
