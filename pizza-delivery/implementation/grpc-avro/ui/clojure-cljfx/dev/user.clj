@@ -5,7 +5,7 @@
             [clojure.spec.test.alpha :as stest]
             [meta-merge.core :refer [meta-merge]]
             [integrant.core :as ig]
-            [integrant.repl :refer [clear go halt prep init reset reset-all]]
+            [integrant.repl :refer [clear go halt suspend resume prep init reset reset-all]]
             [eftest.runner :as eftest]
             [com.onote.example.pizza-delivery-ui.config :as config]
             [clojure.java.browse :refer [browse-url]]))
