@@ -3,7 +3,7 @@
             [integrant.core :as ig]
             [com.walmartlabs.dyn-edn :as dyn-edn]
             [io.pedestal.log :as log]
-            [com.onote.example.pizza-delivery-ui.grpc :as grpc]
+            [com.onote.example.pizza-delivery-ui.client :as client]
             [com.onote.example.pizza-delivery-ui.common :as common]
             [com.onote.example.pizza-delivery-ui.fulfillment :as fulfillment]))
 
@@ -44,4 +44,4 @@
 (defmethod ig/init-key :grpc/client
   [_ config]
   (log/info :grpc/client :init)
-  (grpc/make-client config))
+  (client/make-client config))
