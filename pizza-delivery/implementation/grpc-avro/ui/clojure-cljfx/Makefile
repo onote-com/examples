@@ -29,18 +29,21 @@ deps: deps.edn
 
 # Dev Workflow
 
+target/classes/com/example/pizza/PizzaDeliveryTracker.class:
+	$(CLOJURE_BUILD) compile-java-from-avro-protocol
+
 CLJ_REPL_ALIAS:=
 
 .PHONY: dev
-dev:
+dev: target/classes/com/example/pizza/PizzaDeliveryTracker.class
 	clojure -M:dev${CLJ_REPL_ALIAS}
 
 .PHONY: test
-test:
+test: target/classes/com/example/pizza/PizzaDeliveryTracker.class
 	$(CLOJURE_BUILD) test
 
 .PHONY: run
-run:
+run: target/classes/com/example/pizza/PizzaDeliveryTracker.class
 	clojure -M:run
 
 # Release
@@ -51,7 +54,7 @@ VERSION:=$(shell git rev-parse --short=10 HEAD)
 clean:
 	$(CLOJURE_BUILD) clean
 
-target/uberjar/clojure-cljfx-ui-*.jar:
+target/uberjar/clojure-cljfx-ui-*.jar: target/classes/com/example/pizza/PizzaDeliveryTracker.class
 	$(CLOJURE_BUILD) ci
 
 target/package/clojure-cljfx-ui/: target/uberjar/clojure-cljfx-ui-*.jar

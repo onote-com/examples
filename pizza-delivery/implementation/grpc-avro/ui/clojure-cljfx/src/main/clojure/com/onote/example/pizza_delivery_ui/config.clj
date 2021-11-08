@@ -3,8 +3,9 @@
             [integrant.core :as ig]
             [com.walmartlabs.dyn-edn :as dyn-edn]
             [io.pedestal.log :as log]
-            [com.onote.example.pizza-delivery-ui.fulfillment :as fulfillment]
-            [com.onote.example.pizza-delivery-ui.common :as common]))
+            [com.onote.example.pizza-delivery-ui.grpc :as grpc]
+            [com.onote.example.pizza-delivery-ui.common :as common]
+            [com.onote.example.pizza-delivery-ui.fulfillment :as fulfillment]))
 
 (set! *warn-on-reflection* true)
 
@@ -39,3 +40,8 @@
   [_ app]
   (log/info :cljfx/app :halt!)
   (common/stop-app app))
+
+(defmethod ig/init-key :grpc/client
+  [_ config]
+  (log/info :grpc/client :init)
+  (grpc/make-client config))

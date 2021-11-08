@@ -27,3 +27,5 @@
 /target
 /package
 /logs
+/src/main/generated-java
+/resources/*.avpr

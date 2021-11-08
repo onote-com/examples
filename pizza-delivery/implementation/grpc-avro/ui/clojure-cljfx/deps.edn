@@ -1,9 +1,16 @@
-{:paths ["src" "resources"]
+{:paths ["src/main/clojure" "resources"]
  :deps  {org.clojure/clojure    {:mvn/version "1.10.3"}
          org.clojure/core.cache {:mvn/version "1.0.217"}
 
          ;; UI
          cljfx/cljfx {:mvn/version "1.7.16"}
+
+         ;; Webservice Client
+         org.apache.avro/avro      {:mvn/version "1.10.2"}
+         org.apache.avro/avro-ipc  {:mvn/version "1.10.2"}
+         org.apache.avro/avro-grpc {:mvn/version "1.10.2"}
+         io.grpc/grpc-stub         {:mvn/version "1.42.0"}
+         io.grpc/grpc-netty-shaded {:mvn/version "1.42.0"}
 
          ;; Config and system
          integrant/integrant     {:mvn/version "0.8.0"}
@@ -17,7 +24,7 @@
          org.slf4j/jcl-over-slf4j       {:mvn/version "1.7.32"}
          org.slf4j/log4j-over-slf4j     {:mvn/version "1.7.32"}}
  :aliases
- {:dev      {:extra-paths ["dev" "test"]
+ {:dev      {:extra-paths ["dev" "test" "target/classes"]
              :extra-deps  {integrant/repl {:mvn/version "0.3.2"}
                            eftest/eftest  {:mvn/version "0.5.9"}}
              :jvm-opts    ["-Dlogback.configurationFile=./dev/logback-dev.xml"]}
@@ -26,7 +33,8 @@
                            io.github.cognitect-labs/test-runner
                            {:git/tag "v0.5.0" :git/sha "48c3c67"}}}
   :run      {:main-opts ["-m" "com.onote.example.pizza-delivery-ui"]}
-  :build    {:deps       {io.github.seancorfield/build-clj {:git/tag "v0.5.2" :git/sha "8f75b81"}}
+  :build    {:deps       {io.github.seancorfield/build-clj {:git/tag "v0.5.2" :git/sha "8f75b81"}
+                          org.apache.avro/avro-compiler    {:mvn/version "1.10.2"}}
              :ns-default build}
   :outdated {:extra-deps {com.github.liquidz/antq {:mvn/version "RELEASE"}}
              :main-opts  ["-m" "antq.core"]}}}

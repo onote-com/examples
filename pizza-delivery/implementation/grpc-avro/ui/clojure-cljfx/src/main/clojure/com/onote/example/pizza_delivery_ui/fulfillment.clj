@@ -4,7 +4,11 @@
 
 (def initial-state {})
 
-(defmulti -event-handler :event/type)
+(defmulti -event-handler :event/type :default ::default)
+
+(defmethod -event-handler ::default
+  [event]
+  (log/warn :unhandled-event event))
 
 (defn event-handler
   [event]
@@ -14,15 +18,15 @@
 (defn root-view
   [_]
   {:fx/type :stage
-   :title "Pizza Delivery App"
+   :title   "Pizza Delivery App"
    :showing true
-   :width 600
-   :height 400
-   :scene {:fx/type :scene
-           :root {:fx/type :v-box
-                  :alignment :center
-                  :children [{:fx/type :label
-                              :text "Hello world"}]}}})
+   :width   600
+   :height  400
+   :scene   {:fx/type :scene
+             :root    {:fx/type   :v-box
+                       :alignment :center
+                       :children  [{:fx/type :label
+                                    :text    "Hello world"}]}}})
 
 (defn make-app
   [{:keys [context] :as _config}]
