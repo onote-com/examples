@@ -6,6 +6,7 @@
             [meta-merge.core :refer [meta-merge]]
             [integrant.core :as ig]
             [integrant.repl :refer [clear go halt suspend resume prep init reset reset-all]]
+            [integrant.repl.state :refer [system]]
             [eftest.runner :as eftest]
             [com.onote.example.pizza-delivery-ui.config :as config]
             [clojure.java.browse :refer [browse-url]]))
@@ -33,3 +34,8 @@
   (require 'com.onote.example.pizza-delivery-ui.config)
   (integrant.repl/set-prep! #(-> ((resolve 'com.onote.example.pizza-delivery-ui.config/config))
                                  (meta-merge dev-config))))
+
+(defn re-render
+  []
+  (when-let [renderer (some-> system :cljfx/app :renderer)]
+    (renderer)))
