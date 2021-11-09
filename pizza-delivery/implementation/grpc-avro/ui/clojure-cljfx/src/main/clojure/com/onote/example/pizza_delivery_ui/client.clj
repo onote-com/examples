@@ -31,7 +31,7 @@
    :status           (.getStatus order) ;; TODO: status enum to keyword
    })
 
-(defn get-orders-to-fulfill
+(defn orders-to-fulfill
   [^PizzaDeliveryTracker client _params]
   (let [^OrdersToFulfillResponse orders (.ordersToFulfill client (OrdersToFulfillRequest.))]
     {:orders (into [] (map order-map (.getOrders orders)))}))
