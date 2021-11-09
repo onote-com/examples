@@ -1,7 +1,5 @@
 (ns com.onote.example.pizza-delivery-ui.client
-  (:require [clojure.java.io :as io])
-  (:import [org.apache.avro Protocol]
-           [io.grpc ManagedChannelBuilder]
+  (:import [io.grpc ManagedChannelBuilder]
            [org.apache.avro.grpc AvroGrpcClient]
            [com.example.pizza
             MarkOrderRequest

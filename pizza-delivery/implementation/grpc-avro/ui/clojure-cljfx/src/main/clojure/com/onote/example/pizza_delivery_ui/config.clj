@@ -5,7 +5,8 @@
             [io.pedestal.log :as log]
             [com.onote.example.pizza-delivery-ui.client :as client]
             [com.onote.example.pizza-delivery-ui.common :as common]
-            [com.onote.example.pizza-delivery-ui.fulfillment :as fulfillment]))
+            [com.onote.example.pizza-delivery-ui.fulfillment :as fulfillment]
+            [com.onote.example.pizza-delivery-ui.tracker :as tracker]))
 
 (set! *warn-on-reflection* true)
 
@@ -24,17 +25,21 @@
   [_ env]
   (= env :dev))
 
-;; TODO: create w/ different initial-state depending on which app is passed/configured
-(defmethod ig/init-key :cljfx/context
-  [_ _]
-  (log/info :cljfx/context :initialize)
-  (common/make-context fulfillment/initial-state))
-
-;; TODO: create different app depending on which app is passed/configured
 (defmethod ig/init-key :cljfx/app
-  [_ config]
+  [_ {:keys [app] :as config}]
   (log/info :cljfx/app :init)
-  (merge config (fulfillment/make-app config)))
+  (let [context (case app
+                  :fulfillment (common/make-context fulfillment/initial-state)
+                  :tracker     (common/make-context tracker/initial-state))]
+    (merge {:context context}
+           (common/make-app
+            (merge config
+                   {:context context}
+                   (case app
+                     :fulfillment {:event-handler fulfillment/event-handler
+                                   :root-view     fulfillment/root-view}
+                     :tracker     {:event-handler tracker/event-handler
+                                   :root-view     tracker/root-view}))))))
 
 (defmethod ig/halt-key! :cljfx/app
   [_ app]

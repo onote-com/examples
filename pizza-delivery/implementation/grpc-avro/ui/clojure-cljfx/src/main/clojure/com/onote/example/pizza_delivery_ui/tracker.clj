@@ -1,4 +1,4 @@
-(ns com.onote.example.pizza-delivery-ui.fulfillment
+(ns com.onote.example.pizza-delivery-ui.tracker
   (:require [cljfx.api :as fx]
             [io.pedestal.log :as log]))
 
@@ -18,7 +18,7 @@
 (defn root-view
   [_]
   {:fx/type :stage
-   :title   "Pizza Order Fulfillment"
+   :title   "Pizza Tracker"
    :showing true
    :width   600
    :height  400

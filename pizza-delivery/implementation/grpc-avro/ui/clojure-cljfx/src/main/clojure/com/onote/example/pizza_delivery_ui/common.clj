@@ -11,6 +11,14 @@
      initial-state
      cache/lru-cache-factory))))
 
+;; TODO: add effect for communicating with client
+(defn make-app
+  [{:keys [context event-handler root-view client] :as _config}]
+  (fx/create-app
+   context
+   :event-handler event-handler
+   :desc-fn (fn [_] {:fx/type root-view})))
+
 (defn stop-app
-  [{:keys [context #_handler renderer] :as _app}]
+  [{:keys [context renderer] :as _app}]
   (fx/unmount-renderer context renderer))
