@@ -14,7 +14,7 @@
 (set! *warn-on-reflection* true)
 
 (def dev-config
-  {:cljfx/app {:app :fulfillment}})
+  {:cljfx/app {:app :tracker #_:fulfillment}})
 
 (ns-unmap *ns* 'test)
 
