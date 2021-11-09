@@ -2,6 +2,8 @@
   (:require [cljfx.api :as fx]
             [io.pedestal.log :as log]))
 
+(set! *warn-on-reflection* true)
+
 (def initial-state {})
 
 (defmulti -event-handler :event/type :default ::default)

@@ -4,6 +4,8 @@
              [cljfx.api :as fx]
              [com.onote.example.pizza-delivery-ui.client :as client]))
 
+(set! *warn-on-reflection* true)
+
 (defn make-context
   ([]
    (make-context {}))

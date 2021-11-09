@@ -8,6 +8,8 @@
             OrdersToFulfillResponse
             PizzaDeliveryTracker]))
 
+(set! *warn-on-reflection* true)
+
 ;; TODO
 (defn delivery-address-map
   [delivery-address]
