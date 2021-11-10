@@ -1,0 +1,6 @@
+{:env/env          #dyn/keyword #dyn/prop ["ENVIRONMENT" "dev"]
+ :env/development? #ig/ref :env/env
+ :cljfx/app        {:client #ig/ref :grpc/client
+                    :app    #dyn/keyword #dyn/prop ["APP" "tracker"]}
+ :grpc/client      {:host #dyn/prop ["GRPC_CLIENT_HOST" "localhost"]
+                    :port #dyn/long #dyn/prop ["GRPC_CLIENT_PORT" "50051"]}}
