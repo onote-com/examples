@@ -4,8 +4,10 @@
            [org.apache.avro.grpc AvroGrpcClient]
            [com.example PizzaDelivery]
            [com.example.pizza
-            MarkOrderRequest
-            Order
+            Order]
+           [com.example.pizza.command
+            MarkOrderRequest]
+           [com.example.pizza.read_model
             OrdersToFulfillRequest
             OrdersToFulfillResponse]))
 
@@ -49,8 +51,15 @@
   (try
     (some->
      (ManagedChannelBuilder/forAddress host (int port))
-     (.usePlaintext true)
-     (.build)
+     .usePlaintext
+     .build
      (AvroGrpcClient/create PizzaDelivery))
     (catch Throwable t
       (log/error :exception t))))
+
+(comment
+
+  (def client (:grpc/client integrant.repl.state/system))
+  (orders-to-fulfill client nil)
+
+  )
