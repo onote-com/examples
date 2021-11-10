@@ -12,6 +12,21 @@
   [event]
   (log/warn :unhandled-event event))
 
+(defmethod -event-handler :app/init
+  [e]
+  (log/info :app/init e)
+  {:dispatch {:event/type ::fetch-read-model}})
+
+(defmethod -event-handler ::fetch-read-model
+  [_]
+  {:client {:client/method :orders-to-fulfill
+            :success-event ::read-model-fetched}})
+
+(defmethod -event-handler ::read-model-fetched
+  [{:keys [fx/context response]}]
+  {:context (fx/swap-context context assoc
+             :orders-to-fulfill (:orders response))})
+
 (defn event-handler
   [event]
   (log/debug ::event-handler event)

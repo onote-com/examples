@@ -13,6 +13,8 @@
 
 (set! *warn-on-reflection* true)
 
+;; TODO: use Callback/async client
+
 ;; TODO
 (defn delivery-address-map
   [delivery-address]
@@ -25,16 +27,15 @@
 
 (defn order-map
   [^Order order]
-  {:id               (java.util.UUID/fromString (.getId order))
+  {:id               (java.util.UUID/fromString (str (.getId order)))
    :line-items       (map line-item-map (.getLineItems order))
    :subtotal         (.getSubtotal order)
    :tax              (.getTax order)
    :total            (.getTotal order)
-   :customer-id      (java.util.UUID/fromString (.getCustomerId order))
+   :customer-id      (java.util.UUID/fromString (str (.getCustomerId order)))
    :delivery-address (some-> order .getDeliveryAddress delivery-address-map)
-   :type             (.getType order)   ;; TODO: type enum to keyword
-   :status           (.getStatus order) ;; TODO: status enum to keyword
-   })
+   :type             (some-> order .getType .name keyword)
+   :status           (some-> order .getStatus .name keyword)})
 
 (defn orders-to-fulfill
   [^PizzaDelivery client _params]
@@ -56,6 +57,54 @@
      (AvroGrpcClient/create PizzaDelivery))
     (catch Throwable t
       (log/error :exception t))))
+
+(defmulti client-effect
+  (fn [_client v _dispatch!] (:client/method v))
+  :default ::default)
+
+(defmethod client-effect ::default
+  [_client request _]
+  (log/warn ::client-effect ::default :request request))
+
+(defmethod client-effect :orders-to-fulfill
+  [client
+   {:keys [success-event error-event] :as req}
+   dispatch!]
+  (try
+    (let [response (orders-to-fulfill client req)]
+      (dispatch! {:event/type (or success-event :orders-to-fulfill-fetched)
+                  :response   response}))
+    (catch Exception e
+      (log/error :exception e)
+      (dispatch! {:event/type (or error-event :client-error)
+                  :request    req
+                  :message    "failed to fetch orders to fulfill"
+                  :exception  e}))))
+
+(defmethod client-effect :change-order-status
+  [client
+   {:keys [order-id status success-event error-event] :as req}
+   dispatch!]
+  (try
+    (if (change-order-status client order-id status)
+      (dispatch! {:event/type (or success-event :order-status-changed)
+                  :order-id   order-id
+                  :status     status})
+      (dispatch! {:event/type (or error-event :order-status-change-failed)
+                  :order-id   order-id
+                  :status     status}))
+    (catch Exception e
+      (log/error :exception e)
+      (dispatch! {:event/type (or error-event :client-error)
+                  :request    req
+                  :message
+                  (format "failed to change order %s to status %s"
+                          order-id status)
+                  :exception  e}))))
+
+(defn make-effect
+  [client]
+  (partial client-effect client))
 
 (comment
 
