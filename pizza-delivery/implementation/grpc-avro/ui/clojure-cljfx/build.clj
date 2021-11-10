@@ -5,7 +5,7 @@
             [org.corfield.build :as bb])
   (:import [org.apache.avro.compiler.specific SpecificCompiler]))
 
-(def default-protocol-filename "resources/Pizza Delivery Tracker.avpr")
+(def default-protocol-filename "resources/avro/Pizza Delivery.avpr")
 (def default-generated-java-dir "src/main/generated-java")
 
 (defn generate-java-from-avro-protocol

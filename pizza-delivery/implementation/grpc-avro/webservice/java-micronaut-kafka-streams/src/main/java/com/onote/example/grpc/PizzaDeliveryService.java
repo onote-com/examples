@@ -1,10 +1,13 @@
 package com.onote.example.grpc;
 
-import com.example.pizza.*;
+import com.example.PizzaDelivery;
+import com.example.pizza.MarkOrderRequest;
+import com.example.pizza.OrdersToFulfillRequest;
+import com.example.pizza.OrdersToFulfillResponse;
 import jakarta.inject.Singleton;
 
 @Singleton
-public class PizzaDeliveryTrackerService implements PizzaDeliveryTracker {
+public class PizzaDeliveryService implements PizzaDelivery {
 
     @Override
     public OrdersToFulfillResponse ordersToFulfill(OrdersToFulfillRequest request) {
