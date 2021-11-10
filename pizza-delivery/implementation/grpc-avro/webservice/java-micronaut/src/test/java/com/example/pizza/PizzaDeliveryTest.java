@@ -1,4 +1,4 @@
-package com.onote.example.grpc;
+package com.example.pizza;
 
 import io.micronaut.runtime.EmbeddedApplication;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Assertions;
 import jakarta.inject.Inject;
 
 @MicronautTest
-class GrpcTest {
+class PizzaDeliveryTest {
 
     @Inject
     EmbeddedApplication<?> application;

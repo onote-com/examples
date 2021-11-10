@@ -1,4 +1,4 @@
-package com.onote.example.grpc;
+package com.example.pizza;
 
 import io.micronaut.runtime.Micronaut;
 

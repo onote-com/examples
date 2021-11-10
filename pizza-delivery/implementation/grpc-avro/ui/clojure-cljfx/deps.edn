@@ -6,9 +6,7 @@
          cljfx/cljfx {:mvn/version "1.7.16"}
 
          ;; Webservice Client
-         org.apache.avro/avro      {:mvn/version "1.10.2"}
-         org.apache.avro/avro-ipc  {:mvn/version "1.10.2"}
-         org.apache.avro/avro-grpc {:mvn/version "1.10.2"}
+         org.apache.avro/avro-grpc {:mvn/version "1.11.0"}
          io.grpc/grpc-stub         {:mvn/version "1.42.0"}
          io.grpc/grpc-netty-shaded {:mvn/version "1.42.0"}
 

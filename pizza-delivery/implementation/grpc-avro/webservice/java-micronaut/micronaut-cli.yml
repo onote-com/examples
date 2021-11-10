@@ -1,6 +1,6 @@
 applicationType: grpc
-defaultPackage: com.onote.example.grpc
+defaultPackage: com.example.pizza
 testFramework: junit
 sourceLanguage: java
-buildTool: maven
-features: [annotation-api, app-name, grpc, java, java-application, junit, logback, maven, readme, shade, yaml]
+buildTool: gradle
+features: [annotation-api, app-name, gradle, grpc, java, java-application, junit, logback, readme, shade, yaml]
