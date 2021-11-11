@@ -4,7 +4,8 @@
            [org.apache.avro.grpc AvroGrpcClient]
            [com.example PizzaDelivery]
            [com.example.pizza
-            Order]
+            Order
+            OrderStatus]
            [com.example.pizza.command
             MarkOrderRequest]
            [com.example.pizza.read_model
@@ -44,8 +45,7 @@
 
 (defn ^boolean change-order-status
   [^PizzaDelivery client order-id status]
-  ;; TODO: status enum from keyword
-  (.changeOrderStatus client (MarkOrderRequest. order-id status)))
+  (.changeOrderStatus client (MarkOrderRequest. (str order-id) (OrderStatus/valueOf status))))
 
 (defn make-client
   [{:keys [^String host port]}]
@@ -110,5 +110,6 @@
 
   (def client (:grpc/client integrant.repl.state/system))
   (orders-to-fulfill client nil)
+  (change-order-status client #uuid "b52b0717-3ec5-4987-b7a8-4e7d8aa66db9" "EN_ROUTE")
 
   )
