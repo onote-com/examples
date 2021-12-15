@@ -47,6 +47,7 @@ public class PizzaDeliveryService implements PizzaDelivery {
             FulfillmentStatusProjectionDTO fulfillmentStatus = projectionClient
                     .getResult(fulfillmentStatusProjection, FulfillmentStatusProjectionDTO.class)
                     .get();
+            logger.info("Fetched fulfillment-status projection: {}", fulfillmentStatus.getOrders());
             responseBuilder.setOrders(new ArrayList<>(fulfillmentStatus.getOrders().values()));
         } catch (Throwable e) {
             logger.error("Error while fetching fulfillment-status projection:", e);
@@ -72,6 +73,7 @@ public class PizzaDeliveryService implements PizzaDelivery {
                     fulfillmentStreamCategory + "-" + request.getOrderId(),
                     event
             ).get();
+            logger.info("Appended event: {} to stream with result: {}", event, result);
             return true;
         } catch (InterruptedException | ExecutionException e) {
             logger.error("Error while writing to the fulfillment stream", e);

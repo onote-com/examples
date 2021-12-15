@@ -51,7 +51,9 @@
                   "subtotal"        1000
                   "tax"             100
                   "total"           1100
+                  "customerId"      (java.util.UUID/randomUUID)
                   "deliveryAddress" {"address1" "123 Main Street"
+                                     "address2" ""
                                      "city"     "Anytown"
                                      "state"    "NY"
                                      "zip"      "10011"}
