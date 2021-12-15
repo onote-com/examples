@@ -8,9 +8,9 @@ fromCategory("fulfillment")
         },
         OrderStatusChanged: function(state, event) {
             if (event.body.status === "DELIVERED") {
-                delete state.orders[event.body.id];
+                delete state.orders[event.body.orderId];
             } else {
-                let order = state.orders[event.body.id]
+                let order = state.orders[event.body.orderId]
                 if (typeof order !== 'undefined') {
                     order.status = event.body.status;
                 }

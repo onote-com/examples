@@ -63,11 +63,12 @@ public class PizzaDeliveryService implements PizzaDelivery {
                 .setOrderId(request.getOrderId())
                 .setStatus(OrderStatusChangedStatusEnum.valueOf(request.getStatus().name()))
                 .build();
+        logger.info("Built OrderStatusChanged to make into an Event: {}", orderStatusChanged);
 
         EventData event = AvroEventDataBuilder
                 .json("OrderStatusChanged", orderStatusChanged)
                 .build();
-
+        logger.info("Built event to append to stream: {}", event);
         try {
             WriteResult result = dbClient.appendToStream(
                     fulfillmentStreamCategory + "-" + request.getOrderId(),

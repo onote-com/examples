@@ -1,8 +1,10 @@
 package com.example.pizza;
 
 import com.eventstore.dbclient.EventData;
+import org.apache.avro.io.DatumWriter;
 import org.apache.avro.io.Encoder;
 import org.apache.avro.io.EncoderFactory;
+import org.apache.avro.specific.SpecificDatumWriter;
 import org.apache.avro.specific.SpecificRecordBase;
 
 import java.io.ByteArrayOutputStream;
@@ -19,12 +21,13 @@ public class AvroEventDataBuilder {
     private UUID id;
 
     private <T extends SpecificRecordBase> AvroEventDataBuilder(T record, boolean isJson) {
+        DatumWriter<T> writer = new SpecificDatumWriter<>((Class<T>) record.getClass());
         Encoder encoder = null;
         try {
             if (isJson) {
                 encoder = EncoderFactory.get().jsonEncoder(record.getSchema(), out);
             } else {
-                encoder = EncoderFactory.get().directBinaryEncoder(out, null);
+                encoder = EncoderFactory.get().binaryEncoder(out, null);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -32,7 +35,7 @@ public class AvroEventDataBuilder {
         this.encoder = encoder;
         this.isJson = isJson;
         try {
-            record.customEncode(encoder);
+            writer.write(record, encoder);
             encoder.flush();
         } catch (IOException e) {
             throw new RuntimeException(e);
