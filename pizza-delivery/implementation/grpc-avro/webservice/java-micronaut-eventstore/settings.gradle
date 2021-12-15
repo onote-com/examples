@@ -1,0 +1,16 @@
+rootProject.name="pizza-delivery"
+
+enableFeaturePreview('VERSION_CATALOGS')
+dependencyResolutionManagement {
+    versionCatalogs {
+        libs {
+            version('grpc', '1.40.1')
+            alias('grpc-core').to('io.grpc', 'grpc-core').versionRef('grpc')
+            alias('grpc-protobuf').to('io.grpc', 'grpc-protobuf').versionRef('grpc')
+            alias('grpc-stub').to('io.grpc', 'grpc-stub').versionRef('grpc')
+            alias('grpc-netty-shaded').to('io.grpc', 'grpc-netty-shaded').versionRef('grpc')
+            alias('grpc-netty').to('io.grpc', 'grpc-netty').versionRef('grpc')
+            bundle('grpc', ['grpc-core', 'grpc-protobuf', 'grpc-stub', 'grpc-netty', 'grpc-netty-shaded'])
+        }
+    }
+}

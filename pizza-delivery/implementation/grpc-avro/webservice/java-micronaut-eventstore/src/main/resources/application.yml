@@ -1,0 +1,9 @@
+micronaut:
+  application:
+    name: pizzaDelivery
+event-store:
+  url: "esdb://localhost:2113?tls=false"
+  stream-categories:
+    fulfillment: fulfillment
+  projections:
+    fulfillment-status: fulfillment-status

@@ -1,0 +1,47 @@
+plugins {
+    id("com.github.johnrengelman.shadow") version "7.1.0"
+    id("io.micronaut.application") version "3.0.1"
+    id("com.github.davidmc24.gradle.plugin.avro") version "1.2.1"
+    id("idea")
+}
+
+version = "0.1.0"
+group = "com.example.pizza"
+
+repositories {
+    mavenCentral()
+    maven {
+        url uri('https://oss.sonatype.org/content/repositories/snapshots')
+    }
+}
+
+micronaut {
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("com.example.pizza.*")
+    }
+}
+
+dependencies {
+    annotationProcessor('io.micronaut:micronaut-validation:3.2.0')
+
+    implementation("org.apache.avro:avro-grpc:1.11.0")
+    implementation('io.micronaut:micronaut-validation:3.2.0')
+    implementation('io.micronaut.grpc:micronaut-grpc-server-runtime:3.1.1')
+    implementation("com.eventstore:db-client-java:1.1.1-SNAPSHOT")
+    implementation libs.bundles.grpc
+
+    runtimeOnly('ch.qos.logback:logback-classic:1.2.7')
+
+    testAnnotationProcessor 'io.micronaut:micronaut-validation:3.2.0'
+}
+
+application {
+    mainClass.set("com.example.pizza.Application")
+}
+
+java {
+    sourceCompatibility = JavaVersion.toVersion("11")
+    targetCompatibility = JavaVersion.toVersion("11")
+}
