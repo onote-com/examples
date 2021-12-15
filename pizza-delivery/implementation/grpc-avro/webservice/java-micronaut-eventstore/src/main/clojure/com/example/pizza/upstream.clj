@@ -79,5 +79,7 @@
                "fulfillment-status"
                java.util.HashMap)
 
+  (count (get *1 "orders"))
+
   ;;
   )

@@ -14,12 +14,18 @@
      initial-state
      cache/lru-cache-factory))))
 
+(defn dispatch-later
+  [{:keys [^long ms dispatch]} dispatch!]
+  (Thread/sleep ms)
+  (dispatch! dispatch))
+
 (defn make-app
   [{:keys [context event-handler root-view client] :as _config}]
   (fx/create-app
    context
    :event-handler event-handler
-   :effects {:client (client/make-effect client)}
+   :effects {:client (client/make-effect client)
+             :dispatch-later dispatch-later}
    :desc-fn (fn [_] {:fx/type root-view})))
 
 (defn stop-app

@@ -28,20 +28,20 @@
 (defmethod ig/init-key :cljfx/app
   [_ {:keys [app] :as config}]
   (log/info :cljfx/app :init)
-  (let [context (case app
-                  :fulfillment (common/make-context fulfillment/initial-state)
-                  :tracker     (common/make-context tracker/initial-state))
+  (let [context (if (= app :fulfillment)
+                  (common/make-context fulfillment/initial-state)
+                  (common/make-context tracker/initial-state))
         {:keys [handler] :as application}
         (merge config
                {:context context}
                (common/make-app
                 (merge config
                        {:context context}
-                       (case app
-                         :fulfillment {:event-handler fulfillment/event-handler
-                                       :root-view     fulfillment/root-view}
-                         :tracker     {:event-handler tracker/event-handler
-                                       :root-view     tracker/root-view}))))]
+                       (if (= app :fulfillment)
+                         {:event-handler fulfillment/event-handler
+                          :root-view     fulfillment/root-view}
+                         {:event-handler tracker/event-handler
+                          :root-view     tracker/root-view}))))]
     (when (fn? handler)
       (log/info :app/init :dispatch)
       (handler {:event/type :app/init}))

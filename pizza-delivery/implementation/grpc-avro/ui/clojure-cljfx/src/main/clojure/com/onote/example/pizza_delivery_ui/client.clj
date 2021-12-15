@@ -28,24 +28,32 @@
 
 (defn order-map
   [^Order order]
-  {:id               (java.util.UUID/fromString (str (.getId order)))
+  {:id               (str (.getId order))
    :line-items       (map line-item-map (.getLineItems order))
    :subtotal         (.getSubtotal order)
    :tax              (.getTax order)
    :total            (.getTotal order)
-   :customer-id      (java.util.UUID/fromString (str (.getCustomerId order)))
+   :customer-id      (str (.getCustomerId order))
    :delivery-address (some-> order .getDeliveryAddress delivery-address-map)
-   :type             (some-> order .getType .name keyword)
-   :status           (some-> order .getStatus .name keyword)})
+   :type             (some-> order .getType .name)
+   :status           (some-> order .getStatus .name)})
 
 (defn orders-to-fulfill
   [^PizzaDelivery client _params]
-  (let [^OrdersToFulfillResponse orders (.ordersToFulfill client (.build (OrdersToFulfillRequest/newBuilder)))]
-    {:orders (into [] (map order-map (.getOrders orders)))}))
+  (let [^OrdersToFulfillResponse
+        response (.ordersToFulfill client (.build (OrdersToFulfillRequest/newBuilder)))
+        orders   (mapv order-map (.getOrders response))]
+    (log/info ::orders-to-fulfill orders)
+    {:orders orders}))
 
 (defn ^boolean change-order-status
   [^PizzaDelivery client order-id status]
-  (.changeOrderStatus client (MarkOrderRequest. (str order-id) (OrderStatus/valueOf status))))
+  (let [response (.changeOrderStatus
+                  client
+                  (MarkOrderRequest. (str order-id)
+                                     (OrderStatus/valueOf status)))]
+    (log/info ::change-order-status response)
+    response))
 
 (defn make-client
   [{:keys [^String host port]}]
@@ -110,6 +118,4 @@
 
   (def client (:grpc/client integrant.repl.state/system))
   (orders-to-fulfill client nil)
-  (change-order-status client #uuid "b52b0717-3ec5-4987-b7a8-4e7d8aa66db9" "EN_ROUTE")
-
-  )
+  (change-order-status client #uuid "b52b0717-3ec5-4987-b7a8-4e7d8aa66db9" "EN_ROUTE"))
